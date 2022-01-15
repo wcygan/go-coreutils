@@ -30,9 +30,6 @@ func TestPwd(t *testing.T) {
 
 func TestPwdTempDir(t *testing.T) {
 	temp := os.TempDir()
-	defer func() {
-		os.RemoveAll(temp)
-	}()
 
 	err := os.Chdir(temp)
 	if err != nil {
