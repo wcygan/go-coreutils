@@ -23,24 +23,25 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/wcygan/go-coreutils/pwd"
+	"github.com/wcygan/go-coreutils/whoami"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
-var pwdCmd = &cobra.Command{
-	Use:   "pwd",
-	Short: "Print working directory",
-	Long:  `pwd prints the name of the current directory`,
-	Run:   runPwd,
+var whoamiCmd = &cobra.Command{
+	Use:   "whoami",
+	Short: "Print effective user name",
+	Long:  `whoami prints the user name associated with the current effective user ID. It is equivalent to the command ‘id -un’.`,
+	Run:   runWhoAmI,
 }
 
 func init() {
-	rootCmd.AddCommand(pwdCmd)
+	rootCmd.AddCommand(whoamiCmd)
 }
 
-func runPwd(cmd *cobra.Command, args []string) {
-	err := pwd.Run(os.Stdout)
+func runWhoAmI(cmd *cobra.Command, args []string) {
+	err := whoami.Run(os.Stdout)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
