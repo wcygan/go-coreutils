@@ -25,33 +25,23 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/wcygan/go-coreutils/constants"
-	"github.com/wcygan/go-coreutils/ls"
+	"github.com/wcygan/go-coreutils/tree"
 	"os"
 )
 
-var lsCmd = &cobra.Command{
-	Use:   "ls",
-	Short: "List directory contents",
-	Long:  `The ls program lists information about files (of any type, including directories).`,
-	Run:   runLs,
+// treeCmd represents the tree command
+var treeCmd = &cobra.Command{
+	Use:   "tree",
+	Short: "Display a directory tree",
+	Long:  `Displays a recursive directory listing program that produces a depth-indented listing of files.`,
+	Run:   runTree,
 }
-
-const (
-	long = "long"
-	l    = "l"
-)
 
 func init() {
-	rootCmd.AddCommand(lsCmd)
-	lsCmd.Flags().BoolP(long, l, false, "Display directory contents in a column")
+	rootCmd.AddCommand(treeCmd)
 }
 
-func runLs(cmd *cobra.Command, args []string) {
-	long, err := cmd.Flags().GetBool(long)
-	if err != nil {
-		return
-	}
-
+func runTree(cmd *cobra.Command, args []string) {
 	var dir string
 	if len(args) > 0 {
 		dir = args[0]
@@ -59,12 +49,7 @@ func runLs(cmd *cobra.Command, args []string) {
 		dir = constants.Dot
 	}
 
-	cfg := ls.Config{
-		Directory:  dir,
-		LongFormat: long,
-	}
-
-	err = ls.Run(cfg, os.Stdout)
+	err := tree.Run(dir, os.Stdout)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
