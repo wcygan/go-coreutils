@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-// Run redirects the bytes from "in" to "out"
+// Run prints the bytes from "in" to "out"
 func Run(in io.Reader, out io.Writer) error {
 	s := bufio.NewScanner(in)
 
