@@ -22,36 +22,51 @@ THE SOFTWARE.
 package cmd
 
 import (
+	"bytes"
 	"fmt"
+	"github.com/wcygan/go-coreutils/echo"
+	"io"
+	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-// echoCmd represents the echo command
 var echoCmd = &cobra.Command{
 	Use:   "echo",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("echo called")
-	},
+	Short: "writes each given string to standard output",
+	Long:  `echo writes each given string to standard output, with a space between each and a newline after the last one.`,
+	Run:   setup,
 }
 
 func init() {
 	rootCmd.AddCommand(echoCmd)
+}
 
-	// Here you will define your flags and configuration settings.
+func setup(cmd *cobra.Command, args []string) {
+	var in io.Reader
+	out := os.Stdout
 
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// echoCmd.PersistentFlags().String("foo", "", "A help for foo")
+	if len(args) > 0 {
+		var sb strings.Builder
+		for idx, str := range args {
+			var salt string
+			if idx == len(args)-1 {
+				salt = "\n"
+			} else {
+				salt = " "
+			}
 
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// echoCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+			sb.WriteString(str + salt)
+		}
+		in = bytes.NewReader([]byte(sb.String()))
+	} else {
+		in = os.Stdin
+	}
+
+	err := echo.Run(in, out)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
