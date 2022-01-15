@@ -12,6 +12,14 @@ type Config struct {
 	Directory  string
 }
 
+func (c Config) separator() string {
+	if c.LongFormat {
+		return "\n"
+	} else {
+		return "  "
+	}
+}
+
 func Run(config Config, out io.Writer) error {
 	dirEntries, err := os.ReadDir(config.Directory)
 	if err != nil {
@@ -23,19 +31,10 @@ func Run(config Config, out io.Writer) error {
 		names = append(names, ent.Name())
 	}
 
-	sep := getSeparator(config.LongFormat)
-	_, err = fmt.Fprintln(out, strings.Join(names, sep))
+	_, err = fmt.Fprintln(out, strings.Join(names, config.separator()))
 	if err != nil {
 		return err
 	}
 
 	return nil
-}
-
-func getSeparator(isLongFormat bool) string {
-	if isLongFormat {
-		return "\n"
-	} else {
-		return "  "
-	}
 }

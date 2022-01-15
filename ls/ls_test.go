@@ -50,8 +50,7 @@ func TestListDirectory(t *testing.T) {
 			}
 
 			// fetch the names from ls.Run
-			separator := getSeparator(cfg.LongFormat)
-			results := strings.Split(out.String(), separator)
+			results := strings.Split(out.String(), cfg.separator())
 
 			expected = sanitize(expected)
 			results = sanitize(results)
