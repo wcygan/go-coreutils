@@ -2,6 +2,7 @@ package echo
 
 import (
 	"bufio"
+	"fmt"
 	"io"
 )
 
@@ -10,7 +11,7 @@ func Run(in io.Reader, out io.Writer) error {
 	s := bufio.NewScanner(in)
 
 	for s.Scan() {
-		_, err := out.Write(s.Bytes())
+		_, err := fmt.Fprintln(out, s.Text())
 		if err != nil {
 			return err
 		}

@@ -2,6 +2,7 @@ package echo
 
 import (
 	"bytes"
+	"fmt"
 	"testing"
 )
 
@@ -24,9 +25,10 @@ func TestEcho(t *testing.T) {
 				t.Error(err)
 			}
 
+			want := fmt.Sprintln(tc.given)
 			got := out.String()
-			if got != tc.given {
-				t.Errorf("got `%s`, want `%s`", got, tc.given)
+			if got != want {
+				t.Errorf("got `%s`, want `%s`", got, want)
 			}
 		})
 	}

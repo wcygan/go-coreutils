@@ -34,7 +34,7 @@ import (
 
 var echoCmd = &cobra.Command{
 	Use:   "echo",
-	Short: "writes each given string to standard output",
+	Short: "Print a line of text",
 	Long:  `echo writes each given string to standard output, with a space between each and a newline after the last one.`,
 	Run:   setup,
 }
@@ -48,18 +48,7 @@ func setup(cmd *cobra.Command, args []string) {
 	out := os.Stdout
 
 	if len(args) > 0 {
-		var sb strings.Builder
-		for idx, str := range args {
-			var salt string
-			if idx == len(args)-1 {
-				salt = "\n"
-			} else {
-				salt = " "
-			}
-
-			sb.WriteString(str + salt)
-		}
-		in = bytes.NewReader([]byte(sb.String()))
+		in = bytes.NewReader([]byte(strings.Join(args[:], " ")))
 	} else {
 		in = os.Stdin
 	}
