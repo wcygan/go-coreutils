@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 Will Cygan <wcygan.io@gmail.com>
+Copyright © 2022 William Cygan <wcygan.io@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,38 +22,26 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"bytes"
 	"fmt"
-	"github.com/wcygan/go-coreutils/echo"
-	"io"
-	"os"
-	"strings"
-
 	"github.com/spf13/cobra"
+	"github.com/wcygan/go-coreutils/pwd"
+	"os"
 )
 
-var echoCmd = &cobra.Command{
-	Use:   "echo",
-	Short: "Print a line of text",
-	Long:  `echo writes each given string to standard output, with a space between each and a newline after the last one.`,
-	Run:   runEcho,
+// pwdCmd represents the pwd command
+var pwdCmd = &cobra.Command{
+	Use:   "pwd",
+	Short: "Print working directory",
+	Long:  `pwd prints the name of the current directory`,
+	Run:   runPwd,
 }
 
 func init() {
-	rootCmd.AddCommand(echoCmd)
+	rootCmd.AddCommand(pwdCmd)
 }
 
-func runEcho(cmd *cobra.Command, args []string) {
-	var in io.Reader
-	out := os.Stdout
-
-	if len(args) > 0 {
-		in = bytes.NewReader([]byte(strings.Join(args[:], " ")))
-	} else {
-		in = os.Stdin
-	}
-
-	err := echo.Run(in, out)
+func runPwd(cmd *cobra.Command, args []string) {
+	err := pwd.Run(os.Stdout)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
