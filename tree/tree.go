@@ -10,12 +10,13 @@ import (
 )
 
 const (
-	vertical    = "│"
-	horizontal  = "──"
-	branch      = "├"
-	ending      = "└─"
-	singleSpace = " "
-	tripleSpace = "   "
+	vertical         = "│"
+	singleHorizontal = "─"
+	doubleHorizontal = singleHorizontal + singleHorizontal
+	branch           = "├"
+	ending           = "└─"
+	singleSpace      = " "
+	tripleSpace      = singleSpace + singleSpace + singleSpace
 )
 
 func Run(root string, out io.Writer) error {
@@ -70,9 +71,9 @@ func getPrefix(lastEntry bool, bars []bool) string {
 	}
 
 	if lastEntry {
-		sb.WriteString(ending + horizontal + singleSpace)
+		sb.WriteString(ending + singleHorizontal + singleSpace)
 	} else {
-		sb.WriteString(branch + horizontal + singleSpace)
+		sb.WriteString(branch + doubleHorizontal + singleSpace)
 	}
 
 	return sb.String()

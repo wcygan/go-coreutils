@@ -23,15 +23,15 @@ This yields the following:
 ./tree
 ├── testdir
 │   ├── a
-│   │   └─── apple
+│   │   └── apple
 │   ├── b
-│   │   └─── banana
+│   │   └── banana
 │   ├── bar
 │   ├── baz
 │   ├── c
-│   │   └─── orange
-│   └─── foo
-└─── tree.go
+│   │   └── orange
+│   └── foo
+└── tree.go
 ```
 
 
