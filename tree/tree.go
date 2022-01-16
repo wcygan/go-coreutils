@@ -19,24 +19,24 @@ const (
 	tripleSpace      = singleSpace + singleSpace + singleSpace
 )
 
-func Run(root string, out io.Writer) error {
+func Run(root string, out io.Writer, showHidden bool) error {
 	_, err := fmt.Fprintln(out, root)
 	if err != nil {
 		return err
 	}
 
-	walkDir(root, root, out, make([]bool, 0), 0)
+	walkDir(root, root, out, make([]bool, 0), 0, showHidden)
 	return nil
 }
 
-func walkDir(root, current string, out io.Writer, bars []bool, depth int) {
+func walkDir(root, current string, out io.Writer, bars []bool, depth int, showHidden bool) {
 	dirEntries, err := os.ReadDir(current)
 	if err != nil {
 		return
 	}
 
 	for idx, ent := range dirEntries {
-		if strings.HasPrefix(ent.Name(), constants.Dot) {
+		if !showHidden && strings.HasPrefix(ent.Name(), constants.Dot) {
 			continue
 		}
 
@@ -54,7 +54,7 @@ func walkDir(root, current string, out io.Writer, bars []bool, depth int) {
 			nextDir := filepath.Join(current, ent.Name())
 			nextBars := append(bars, !isFinalEntry)
 			nextDepth := depth + 1
-			walkDir(root, nextDir, out, nextBars, nextDepth)
+			walkDir(root, nextDir, out, nextBars, nextDepth, showHidden)
 		}
 	}
 }

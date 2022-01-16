@@ -39,6 +39,7 @@ var treeCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(treeCmd)
+	treeCmd.Flags().BoolP("all", "a", false, "Show all hidden files and directories")
 }
 
 func runTree(cmd *cobra.Command, args []string) {
@@ -49,7 +50,13 @@ func runTree(cmd *cobra.Command, args []string) {
 		dir = constants.Dot
 	}
 
-	err := tree.Run(dir, os.Stdout)
+	hidden, err := cmd.Flags().GetBool("all")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	err = tree.Run(dir, os.Stdout, hidden)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

@@ -36,18 +36,13 @@ var lsCmd = &cobra.Command{
 	Run:   runLs,
 }
 
-const (
-	long = "long"
-	l    = "l"
-)
-
 func init() {
 	rootCmd.AddCommand(lsCmd)
-	lsCmd.Flags().BoolP(long, l, false, "Display directory contents in a column")
+	lsCmd.Flags().BoolP("long", "", false, "Display directory contents in a column")
 }
 
 func runLs(cmd *cobra.Command, args []string) {
-	long, err := cmd.Flags().GetBool(long)
+	long, err := cmd.Flags().GetBool("long")
 	if err != nil {
 		return
 	}
