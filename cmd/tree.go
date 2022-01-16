@@ -29,7 +29,6 @@ import (
 	"os"
 )
 
-// treeCmd represents the tree command
 var treeCmd = &cobra.Command{
 	Use:   "tree",
 	Short: "Display a directory tree",
