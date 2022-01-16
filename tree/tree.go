@@ -63,9 +63,9 @@ func getPrefix(lastEntry bool, bars []bool) string {
 
 	for _, active := range bars {
 		if active {
-			sb.WriteString(vertical + tripleSpace + singleSpace)
+			sb.WriteString(vertical + tripleSpace)
 		} else {
-			sb.WriteString(singleSpace + tripleSpace + singleSpace)
+			sb.WriteString(singleSpace + tripleSpace)
 		}
 	}
 
