@@ -22,46 +22,30 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/wcygan/go-coreutils/constants"
-	"github.com/wcygan/go-coreutils/ls"
+	"github.com/wcygan/go-coreutils/ping"
 	"os"
 )
 
-var lsCmd = &cobra.Command{
-	Use:   "ls",
-	Short: "List directory contents",
-	Long:  `The ls program lists information about files (of any type, including directories).`,
-	Run:   runLs,
+var pingCmd = &cobra.Command{
+	Use:   "ping",
+	Short: "Tests the reachability of a host on a network",
+	Long: `Ping is a computer network administration software utility used to test the reachability of a host on an 
+Internet Protocol network.`,
+	Args: cobra.ExactArgs(1),
+	Run:  runPing,
 }
 
 func init() {
-	rootCmd.AddCommand(lsCmd)
-	lsCmd.Flags().BoolP("long", "l", false, "Display directory contents in a column")
+	rootCmd.AddCommand(pingCmd)
+	pingCmd.Flags().StringP("port", "p", "80", "The port to connect to")
 }
 
-func runLs(cmd *cobra.Command, args []string) {
-	long, err := cmd.Flags().GetBool("long")
+func runPing(cmd *cobra.Command, args []string) {
+	host := args[0]
+	port, err := cmd.Flags().GetString("port")
 	if err != nil {
 		return
 	}
-
-	var dir string
-	if len(args) > 0 {
-		dir = args[0]
-	} else {
-		dir = constants.Dot
-	}
-
-	cfg := ls.Config{
-		Directory:  dir,
-		LongFormat: long,
-	}
-
-	err = ls.Run(cfg, os.Stdout)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	ping.Ping(host, port, os.Stdout)
 }
