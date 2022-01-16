@@ -11,7 +11,7 @@ func Ping(host, port string, out io.Writer) {
 	done := make(chan struct{})
 	ticks := 0
 	tick := time.Tick(750 * time.Millisecond)
-	timeout := time.Second
+	timeout := 500 * time.Millisecond
 	conn, err := net.DialTimeout("tcp", host+":"+port, timeout)
 
 	for {
