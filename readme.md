@@ -88,3 +88,15 @@ $ go-coreutils tree
     ├── whoami.go
     └── whoami_test.go
 ```
+
+## Add a command using [Cobra](https://cobra.dev/)
+
+Make sure you have the Cobra generator ([Install](https://cobra.dev/#install), [Docs](https://github.com/spf13/cobra/blob/master/cobra/README.md)) installed.
+
+With the Cobra generator you can initialize the Cobra framework, add commands & subcommands, and more.
+
+```
+$ cobra init
+$ cobra add <command>
+$ cobra add <command> <subcommand>
+```
