@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 Will Cygan <wcygan.io@gmail.com>
+Copyright © 2022 William Cygan <wcygan.io@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,26 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/wcygan/go-coreutils/echo"
+	"github.com/wcygan/go-coreutils/yes"
 	"os"
 )
 
-var echoCmd = &cobra.Command{
-	Use:   "echo",
-	Short: "Print a line of text",
-	Long:  `echo writes each given string to standard output, with a space between each and a newline after the last one.`,
-	Run:   runEcho,
+var yesCmd = &cobra.Command{
+	Use:   "yes",
+	Short: "Repeats the provided text until interrupted",
+	Args:  cobra.MinimumNArgs(1),
+	Run:   runYes,
 }
 
 func init() {
-	rootCmd.AddCommand(echoCmd)
+	rootCmd.AddCommand(yesCmd)
 }
 
-func runEcho(cmd *cobra.Command, args []string) {
-	in := argsOrStdin(args)
+func runYes(cmd *cobra.Command, args []string) {
+	text := combineArgs(args)
 	out := os.Stdout
 
-	err := echo.Run(in, out)
+	err := yes.Run(text, out)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

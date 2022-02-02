@@ -31,6 +31,7 @@ Available Commands:
   pwd         Print working directory
   tree        Display a directory tree
   whoami      Print effective user name
+  yes         Repeats the provided text until interrupted
 
 Flags:
   -h, --help   help for go-coreutils
@@ -45,6 +46,7 @@ $ go-coreutils tree
 .
 ├── LICENSE
 ├── cmd
+│   ├── common.go
 │   ├── du.go
 │   ├── echo.go
 │   ├── ls.go
@@ -52,7 +54,8 @@ $ go-coreutils tree
 │   ├── pwd.go
 │   ├── root.go
 │   ├── tree.go
-│   └── whoami.go
+│   ├── whoami.go
+│   └── yes.go
 ├── constants
 │   └── shared_constants.go
 ├── du
@@ -60,6 +63,7 @@ $ go-coreutils tree
 ├── echo
 │   ├── echo.go
 │   └── echo_test.go
+├── gco
 ├── go.mod
 ├── go.sum
 ├── ls
@@ -84,9 +88,12 @@ $ go-coreutils tree
 │   │   │   └── orange
 │   │   └── foo
 │   └── tree.go
-└── whoami
-    ├── whoami.go
-    └── whoami_test.go
+├── whoami
+│   ├── whoami.go
+│   └── whoami_test.go
+└── yes
+    └── yes.go
+
 ```
 
 ## Add a command using [Cobra](https://cobra.dev/)

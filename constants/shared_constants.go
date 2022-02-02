@@ -1,6 +1,5 @@
 package constants
 
 const (
-	Dot          = "."
-	DirSeparator = "/"
+	Dot = "."
 )
